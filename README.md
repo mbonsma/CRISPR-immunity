@@ -1,6 +1,6 @@
 # CRISPR immunity
 
-Data and code for paper [arXiv:1801.10086](https://arxiv.org/abs/1801.10086): **How adaptive immunity constrains composition and fate of large bacterial populations**
+Data and code for paper [arXiv:1801.10086](https://arxiv.org/abs/1801.10086): **How adaptive immunity constrains composition and fate of large bacterial populations**.
 
 ### Data
 
@@ -43,18 +43,27 @@ After the `-I` flag, put the path to the `Eigen` folder downloaded in step 1. If
 Input parameters:
 
  * `m` total number of possible spacer types
- * `xi` = $1-e$, where $e$ is the spacer effectiveness ranging from $0$ to $1$. 
- * `eta` spacer acquisition probability ($\leq 1$)
- * `R` = $r/(gC_0)$, spacer loss rate 
- * `pv0` = $p_V$, probability of phage success against bacteria without spacers
- * `exp` maximum iterations for simulation = $10^{\text{exp}}$
- * `c0Exp` $C_0$, nutrient concentration = $10^{\text{c0Exp}}$
+ * `xi` = `1-e`, where `e` is the spacer effectiveness ranging from 0 to 1. 
+ * `eta` spacer acquisition probability (<= 1)
+ * `R` = r/(gC0), spacer loss rate 
+ * `pv0` = pV, probability of phage success against bacteria without spacers
+ * `exp` maximum iterations for simulation = 10^exp
+ * `c0Exp` C0, nutrient concentration = 10^c0Exp
  * `repeat` replicate indicator, used only in creating output filename
- * `intial_x` initial bacterial population size ($0 \leq x \leq 1$), $x = n_B/C_0$
- * `initial_y` initial phage population size ($y \geq 0$), $y = n_V/C_0$ 
- * `initial_z` initial nutrient concentration ($0 \leq z \leq 1$), $z = C/C_0$
- * `initial_nu` initial fraction of bacteria with spacers ($0 \leq \nu \leq 1$), $\nu = n_B^s/n_B$
+ * `intial_x` initial bacterial population size (0 <= x <= 1), x = nB/C0
+ * `initial_y` initial phage population size (y >= 0), y = nV/C0 
+ * `initial_z` initial nutrient concentration (0 <= z <= 1), z = C/C0
+ * `initial_nu` initial fraction of bacteria with spacers (0 <= nu <= 1), nu = nBs/nB
 
+Output data structure (by column, indexing starting at 0):
+
+ * Column 0: tau leaping iteration number
+ * Column 1: nB0, number of bacteria without a spacer
+ * Columns 2 to m+1: nBi, number of bacteria with spacer type i
+ * Column m+2: nV, number of phages
+ * Column m+3: C, nutrient concentration
+ * Column m+4: t, time in minutes; time in generations = t*g*C0
+ * Column m+5: method, unused (always = 0)
 
 Example usage:
 
