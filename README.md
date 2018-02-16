@@ -1,6 +1,22 @@
-# CRISPR_immunity
-Data and code for paper arXiv:1801.10086
+# CRISPR immunity
 
+Data and code for paper [arXiv:1801.10086](https://arxiv.org/abs/1801.10086): **How adaptive immunity constrains composition and fate of large bacterial populations**
+
+### Data
+
+We analyzed data collected by Paez-Espino *et al.* (2013) and reported in [this paper](https://www.ncbi.nlm.nih.gov/pubmed/23385575). Original data from their study is publicly available in the NCBI Sequence Read Archive under the accession [SRA062737](https://www.ncbi.nlm.nih.gov/sra/?term=SRA062737). It includes four data files (SRR630110, SRR630111, SRR630412, and SRR630413) which we used for our analysis. We extracted the data corresponding to the MOI2 deep sequencing experiment and separated it into time points by checking each read for matches to the primers identified in the supplementary information of Paez-Espino *et al.* 
+
+The data files deposited here are a result of our further processing and sorting.
+
+ * [CRISPR1_MOI2_deep_spacer_types.txt](https://github.com/mbonsma/CRISPR_immunity/blob/master/data/CRISPR1_MOI2_deep_spacer_types.txt) contains every unique spacer sequence we detected and its assigned type. Spacers were grouped such that sequences within an edit distance of 2 were assigned to the same type.
+	* column 1: spacer sequence
+	* column 2: spacer type label
+
+ * [CRISPR1_MOI2_deep_timepoint_1.txt](https://github.com/mbonsma/CRISPR_immunity/blob/master/data/CRISPR1_MOI2_deep_timepoint_1.txt) contains spacers arranged by their position in each read. Each row represents a read, and the columns contain spacers sequences if one was present or zeros if no spacers are present in that position. Positions are ordered such that position 0 is next to the wildtype spacers and position 5 is the furthest from wildtype (newest) spacer. The remainder of the files in the `data` folder are the same structure as this file but for the rest of the time points in the study (2 through 14). 
+
+**NOTE**: time point 8 was nearly completely missing in the original data, which was confirmed through communication with the authors. We excluded time point 8 from our analysis.  
+
+We also analyzed data from [Parikka *et al.* (2017)](https://www.ncbi.nlm.nih.gov/pubmed/27113012) to compare virus-to-prokaryote ratios (VPR) from a variety of environments with our model. Their data is deposited at [10.15454/1.4539792655245962E12](https://www.researchgate.net/publication/312027517_Data_and_metadata_dealing_with_prokaryote_and_viral_abundances_from_a_variety_of_ecosystems)
 
 ### Compiling and running simulation code
 
