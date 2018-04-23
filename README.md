@@ -18,6 +18,40 @@ The data files deposited here are a result of our further processing and sorting
 
 We also analyzed data from [Parikka *et al.* (2017)](https://www.ncbi.nlm.nih.gov/pubmed/27113012) to compare virus-to-prokaryote ratios (VPR) from a variety of environments with our model. Their data is deposited at [10.15454/1.4539792655245962E12](https://www.researchgate.net/publication/312027517_Data_and_metadata_dealing_with_prokaryote_and_viral_abundances_from_a_variety_of_ecosystems).
 
+#### Loading the data in Python
+
+The following code or something similar will load the data into a three-dimensional numpy array with time on the first axis and `n_ij` on the other two axes. `n_ij` = the number of spacers of type `i` in locus position `j`, summed over all reads for that time point. (Since the read counts are high, summing over reads allows the entire data to be loaded into memory. This code can be tweaked if you do want the individual read data.)
+
+
+```
+import numpy as np
+import pandas as pd
+
+filepath = "CRISPR_immunity/data"
+spacer_types = pd.read_csv("%s/CRISPR1_MOI2_deep_spacer_types.txt" %filepath, index_col=0)
+total_spacer_types = np.max(spacer_types['type_label'])
+timepoints = [1,2,3,4,5,6,7,9,10,11,12,13,14] # skip time point 8 - no data at this time point
+total_spacer_types = np.max(spacer_types['type_label'])
+max_j = 6 # never more than 6 spacers added, so 6 is the highest position index in the locus
+
+# store loaded data
+spacer_array = np.zeros((len(timepoints),total_spacer_types+1,max_j), dtype = int)
+data_list = []
+
+# loop through files
+for t, timepoint in enumerate(timepoints):
+    data = pd.read_csv("%s/CRISPR1_MOI2_deep_timepoint_%s.txt" %(filepath, timepoint), index_col = 0) # load data as pandas DataFrame
+    data_list.append(data)
+
+    # create array - this part takes a while
+    for j, colname in enumerate(data.columns): # get spacers from each column in data table
+        for spacer in data[colname]:
+            if spacer != '0' and spacer != 0: # 0 if no spacer at that position
+                spacer_type = int(spacer_types.loc[spacer_types["spacer_sequence"] == spacer]['type_label']) # get spacer type label
+                spacer_array[t, spacer_type, j] += 1 # add data to array
+
+```
+
 ### Compiling and running simulation code
 
 Simulation code written by Dominique Soutiere.
